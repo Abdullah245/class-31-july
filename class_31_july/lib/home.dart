@@ -21,17 +21,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder(
-      future: getUsers(),
-      builder: ((BuildContext context, AsyncSnapshot snapshot) {
-        return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(snapshot.data[index]['name']),
-              );
-            });
-      }),
+        body: Center(
+      child: FutureBuilder(
+        future: getUsers(),
+        builder: ((BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return const CircularProgressIndicator();
+          } else {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(snapshot.data[index]['name']),
+                  );
+                });
+          }
+        }),
+      ),
     ));
   }
 }
